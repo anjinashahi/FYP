@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/clerk-react'
 import App from './App.jsx'
 // import router from "./routes/router"
 import { BrowserRouter, RouterProvider, Routes, Route } from "react-router-dom"
+import LoginPage from './pages/login/loginPage.jsx'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')).render(
       {/* <RouterProvider router={router} /> */}
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/login/" element={<LoginPage/>} />
       </Routes>
     </ClerkProvider>
     </BrowserRouter>

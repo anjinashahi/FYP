@@ -6,6 +6,7 @@ import { Card } from "./components/ui/card"
 import { Mountain } from "lucide-react"
 import './App.css'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+import {Link} from 'react-router-dom'
 
 export default function App() {
   return (
@@ -37,24 +38,14 @@ export default function App() {
             <div className="pt-4">
             <header>
               <SignedOut>
-                <SignInButton />
+                <Link to="/login">Login here</Link>
               </SignedOut>
               <SignedIn>
                 <UserButton />
               </SignedIn>
-    </header>
+            </header>
             </div>
           </Card>
-        
-    
-    <header>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-    </header>
     </div>
   )
 }
