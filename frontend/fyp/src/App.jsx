@@ -7,8 +7,12 @@ import { Mountain } from "lucide-react"
 import './App.css'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 import {Link} from 'react-router-dom'
+import { useUser } from '@clerk/clerk-react'
+import DashboardPage from './pages/doctor/dashboard'
 
 export default function App() {
+  const { user } = useUser()
+  if (!user){
   return (
      <div
           className="min-h-screen flex flex-col items-center px-4 py-16 sm:px-6 lg:px-8"
@@ -48,5 +52,13 @@ export default function App() {
           </Card>
     </div>
   )
+}
+else{
+  return(
+    <div>
+      <DashboardPage/>
+    </div>
+  )
+}
 }
 
