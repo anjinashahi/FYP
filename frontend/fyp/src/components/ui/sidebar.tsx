@@ -3,7 +3,6 @@ import { Home, Stethoscope, VolumeIcon as Vial, Waves, FileText } from "lucide-r
 
 import { cn } from "@/lib/utils"
 import {
-  Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
