@@ -6,7 +6,7 @@ module.exports = {
 	  "./src/**/*.{ts,tsx,js,jsx}",
 	  "./pages/**/*.{js,jsx}",
 	  "./components/**/*.{js,jsx}",
-	  "./app/**/*.{js,jsx}",
+	  "./app/**/*.{js,jsx}"
 	],
 	theme: {
 	  container: {
@@ -31,6 +31,9 @@ module.exports = {
 		  primary: {
 			DEFAULT: "#19376D",
 			foreground: "#ffffff",
+			secondary: "#19376D",
+			accent: "#576CBC",
+			light: "#A5D7E8",
 		  },
 		  secondary: {
 			DEFAULT: "#576CBC",
@@ -78,4 +81,4 @@ module.exports = {
 	},
 	plugins: [require("tailwindcss-animate")],
   };
- 
+  
