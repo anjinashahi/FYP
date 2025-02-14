@@ -6,6 +6,8 @@ import Home from './Home'
 import DashboardNav from './components/ui/dashboard-nav'
 import BloodTestForm from './pages/doctor/bloodtest'
 import PatientUploadSearch from './pages/doctor/page-upload-search'
+import Appointments from './pages/doctor/Appointments'
+import Doctors from './pages/doctor/doctors'
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
       <Route path="/symptoms/" element={<Symptoms/>} />
       <Route path="/bloodtest/" element = {<BloodTestForm/>} />
       <Route path = "/ultrasound/" element = {<PatientUploadSearch/>} />
+      <Route path = "appomtment/:docID" element = {<Appointments/>} />
+      <Route path = "doctors" element = {<Doctors/>} />
     </Routes>
     </div>
     </div>

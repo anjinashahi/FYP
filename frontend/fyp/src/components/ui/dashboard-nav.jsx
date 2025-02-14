@@ -7,7 +7,7 @@ const navigation = [
   { name: "Ultrasound", href: "/ultrasound", icon: Calendar, current: false },
   { name: "Medical Record", href: "/records", icon: FileText, current: false },
   { name: "Analytics", href: "/analytics", icon: BarChart2, current: false },
-  { name: "Billing", href: "/billing", icon: Receipt, current: false },
+  { name: "Doctors", href: "/doctors", icon: Receipt, current: false },
   { name: "Settings", href: "/settings", icon: Settings, current: false },
 ]
 
