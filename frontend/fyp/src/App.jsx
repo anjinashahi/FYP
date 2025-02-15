@@ -20,7 +20,7 @@ export default function App() {
       <Route path="/symptoms/" element={<Symptoms/>} />
       <Route path="/bloodtest/" element = {<BloodTestForm/>} />
       <Route path = "/ultrasound/" element = {<PatientUploadSearch/>} />
-      <Route path = "appomtment/:docID" element = {<Appointments/>} />
+      <Route path = "appointment/:docID" element = {<Appointments/>} />
       <Route path = "/doctors" element = {<Doctors/>} />
     </Routes>
     </div>

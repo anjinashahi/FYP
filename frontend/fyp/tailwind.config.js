@@ -77,6 +77,9 @@ module.exports = {
 			ring: "hsl(var(--sidebar-ring))",
 		  },
 		},
+		gridTemplateColumns: {
+			'auto': 'repeat(auto-fill, minmax(200px, 1fr))',
+		}
 	  },
 	},
 	plugins: [require("tailwindcss-animate")],
