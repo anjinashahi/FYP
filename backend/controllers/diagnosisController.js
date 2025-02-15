@@ -54,3 +54,4 @@ function calculateRiskScore(data) {
 }
 
 module.exports = { calculateRiskScore };
+console.log(calculateRiskScore({ fsh: 20, lh: 20, testosterone: 80, insulin: 15, androstenedione: 2, shbg: 40 }));
