@@ -68,7 +68,7 @@ connectDB().then(() => {
         res.send('API working fine');
     });
 
-    app.listen(port, () => console.log(` Server started on port ${port}`));
+    app.listen(port, () => console.log(`Server started on port ${port}`));
 }).catch(err => {
     console.error("Server failed to start:", err);
 });
