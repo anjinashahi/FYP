@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 const addDoctor = async (req, res) => {
     try{
-        const {name, email, password, speciality, degree, experience, fees, address} = req.body;
+        const {name, email, password, speciality, about, degree, experience, fees, address} = req.body;
         // console.log(req.body)
         const imageFile = req.file
 
@@ -27,18 +27,18 @@ const addDoctor = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         //uplaod image to cloudinary
-        // const uploadedImage = await cloudinary.uploader.upload(imageFile.path, {resource_type: "image"});
-        // const imageUrl = iamgeUpload.secure_url;
+        const uploadedImage = await cloudinary.uploader.upload(imageFile.path, {resource_type: "image"});
+        const imageUrl = uploadedImage.secure_url;
 
         const doctorData ={
             name, 
             email,
-            // image: imageUrl,
+            image: imageUrl,
             password: hashedPassword,
             speciality,
             degree,
             experience,
-            // about,
+            about,
             fees,
             address: address,
             date: Date.now(),
