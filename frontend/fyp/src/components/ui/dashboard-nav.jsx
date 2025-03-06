@@ -1,5 +1,6 @@
 import { LayoutDashboard, Users, MessageSquare, Calendar, FileText, BarChart2, Receipt, Settings } from "lucide-react"
 import { Link} from 'react-router-dom'
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard, current: true },
   { name: "Symptoms", href: "/symptoms", icon: Users, current: false },
@@ -30,6 +31,7 @@ export default function DashboardNav() {
           <span className="text-xl">HerHealth</span>
         </Link>
       </div>
+      <div className="flex flex-col justify-between h-full">
       <nav className="flex-1 space-y-1 px-4 py-4">
         {navigation.map((item) => (
           <Link
@@ -50,8 +52,16 @@ export default function DashboardNav() {
               </span>
             )}
           </Link>
+
         ))}
       </nav>
+         <SignedOut>
+                <Link to="/login">Login here</Link>
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+      </div>
     </div>
   )
 }
