@@ -8,6 +8,10 @@ import BloodTestForm from './pages/doctor/bloodtest'
 import PatientUploadSearch from './pages/doctor/page-upload-search'
 import Appointments from './pages/doctor/Appointments'
 import Doctors from './pages/doctor/doctors'
+import Dashboard from './pages/admin/Dashboard'
+import AllAppointments from './pages/admin/AllAppointments'
+import DoctorList from './pages/admin/DoctorList'
+import AddDoctor from './pages/admin/AddDoctor'
 
 export default function App() {
   return (
@@ -22,6 +26,10 @@ export default function App() {
       <Route path = "/ultrasound/" element = {<PatientUploadSearch/>} />
       <Route path = "appointment/:docID" element = {<Appointments/>} />
       <Route path = "/doctors" element = {<Doctors/>} />
+      <Route path = "/admin-dashboard" element = {<Dashboard/>} />
+      <Route path = "/all-appointments" element = {<AllAppointments/>} />
+      <Route path = "/add-doctor" element = {<AddDoctor/>} />
+      <Route path = "/doctor-list" element = {<DoctorList/>} />
     </Routes>
     </div>
     </div>
