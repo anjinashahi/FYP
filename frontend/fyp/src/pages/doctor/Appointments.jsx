@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { useParams } from 'react-router-dom'
 import { doctors } from '../../assets/assets'
 import { useContext } from 'react'
