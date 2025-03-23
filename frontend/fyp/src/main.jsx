@@ -8,7 +8,7 @@ import { BrowserRouter, RouterProvider, Routes, Route } from "react-router-dom"
 import LoginPage from './pages/login/loginPage.jsx'
 import Symptoms from './pages/doctor/symptoms.jsx'
 import SymptomsForm from './pages/doctor/symptoms.jsx'
-// import AppContextProvider from './context/AppContext.jsx'
+import AdminContextProvider from './context/AdminContext.jsx'
 
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -20,10 +20,10 @@ if (!PUBLISHABLE_KEY) {
   <React.StrictMode>
      <ClerkProvider publishableKey={PUBLISHABLE_KEY} >
     <BrowserRouter>
-    {/* <AppContextProvider> */}
+    <AdminContextProvider>
       {/* <RouterProvider router={router} /> */} 
       <App/>
-    {/* </AppContextProvider> */}
+    </AdminContextProvider>
     </BrowserRouter>
     </ClerkProvider>
   </React.StrictMode>,

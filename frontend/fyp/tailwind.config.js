@@ -59,6 +59,10 @@ module.exports = {
 			DEFAULT: "hsl(var(--card))",
 			foreground: "hsl(var(--card-foreground))",
 		  },
+		  "blue-dark": "#0A2240",
+		  "blue-navy": "#14396A",
+		  "blue-medium": "#2A5395",
+		  "blue-light": "#3A75C4",
 		  chart: {
 			"1": "hsl(var(--chart-1))",
 			"2": "hsl(var(--chart-2))",

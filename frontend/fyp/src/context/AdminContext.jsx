@@ -1,13 +1,13 @@
 import { createContext} from 'react';
-import {doctors} from '../../assets/assets'
+import {doctors} from '../assets/assets'
 
 export const AdminContext = createContext()
 
 const AdminContextProvider = (props) => {
-    // const backendUrl = import.meta.env.VITE_BACKEND_URL
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
     const value = {
         doctors,
-        // backendUrl
+        backendUrl
     }
     return (
         <AdminContext.Provider value={value}>

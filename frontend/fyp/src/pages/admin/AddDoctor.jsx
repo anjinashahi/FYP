@@ -1,7 +1,7 @@
 import {assets} from '../../assets/assets'
 import { useState } from 'react'
 import { useContext } from 'react'
-// import { AdminContext } from '../../context/AdminContext.jsx'
+import { AdminContext } from '../../context/AdminContext.jsx'
 
 export default function addDoctors() {
 
@@ -16,7 +16,8 @@ export default function addDoctors() {
   const [address2, setAddress2] = useState('')
   const [about, setAbout] = useState('')
 
-  // const {backendUrl} = useContext(AdminContext)
+  const backendUrl = useContext(AdminContext)
+  console.log(backendUrl)
   const onSubmitHandler = async (event) => {
     event.preventDefault()
     console.log({
@@ -33,7 +34,7 @@ export default function addDoctors() {
   }
 
   return (
-    <form className='m-5 w-full'>
+    <form onSubmit = {onSubmitHandler}className='m-5 w-full'>
       <p className = 'mb-3 text-lg font-medium'>Add doctors</p>
       <div className = 'bg-white px-8 py-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll'>
         <div className = 'flex items-center gap-4 mb-8 text-gray-500'>
