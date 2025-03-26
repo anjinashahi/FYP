@@ -18,3 +18,4 @@ const authAdmin = async (req, res, next) => {
         res.json({success: false, message: "Internal server error"})
     }
 }
+export default authAdmin;
