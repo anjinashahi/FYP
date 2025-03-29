@@ -13,7 +13,7 @@ const addDoctor = async (req, res) => {
 
         console.log({name, email, password, speciality, degree, experience, fees, address})
 
-        if(!name || !email || !password || !speciality || !degree || !experience || !fees || !address ){
+        if(!name || !email || !password || !degree || !experience || !fees || !address ){
             return res.json({success: false, message: "Missing required parameters"})
         }
         if (!validator.isEmail(email)) {
@@ -76,7 +76,7 @@ const loginAdmin = async (req, res)=>{
 //api to get all doc from db
 const allDoctors = async (req, res) => {
     try{
-        const doctors = await doctorModel.find({}.select('-password'));
+        const doctors = await doctorModel.find({});
         res.json({success: true, doctors})
     }
     catch(error){
