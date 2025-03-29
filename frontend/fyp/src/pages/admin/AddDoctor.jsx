@@ -1,7 +1,7 @@
 import { assets } from '../../assets/assets';
 import { useState, useContext } from 'react';
 import { AdminContext } from '../../context/AdminContext.jsx';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 
 export default function AddDoctor() { // Capitalized function name
@@ -17,17 +17,17 @@ export default function AddDoctor() { // Capitalized function name
   const [address2, setAddress2] = useState('');
   const [about, setAbout] = useState('');
 
-  const backendUrl = useContext(AdminContext);
-  console.log(backendUrl);
+  const {backendUrl} = useContext(AdminContext);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     try {
+      console.log(docImg);
       if (!docImg) {
         return toast.error('Image Not Selected');
       }
       const formData = new FormData()
-      formData.append('docImg', docImg)
+      formData.append('image', docImg)
       formData.append('name', name) 
       formData.append('email', email)
       formData.append('password', password)
@@ -41,7 +41,7 @@ export default function AddDoctor() { // Capitalized function name
       formData.forEach((value, key) => {
         console.log(`${key} ${value}`)
       })
-      const {data} = await axios.post(backendUrl + '/api/admin/add-doctor', formData)
+      const {data} = await axios.post(backendUrl + 'api/admin/add-doctor', formData)
       if(data.sucess){
         toast.success('Doctor Added Successfully')
         console.log("sucess")
@@ -198,6 +198,7 @@ export default function AddDoctor() { // Capitalized function name
           Add Doctor
         </button>
       </div>
+      <ToastContainer />
     </form>
   );
 }
