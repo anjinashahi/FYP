@@ -1,3 +1,4 @@
+//cn
 const AllAppointments = () => {
     const appointments = [
       {

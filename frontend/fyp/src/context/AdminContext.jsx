@@ -10,6 +10,8 @@ const AdminContextProvider = (props) => {
     const[doctors, setDoctors] = useState([])
     const getAllDoctors = async () => {
         try{
+            // const token = await window.Clerk.session.getToken();
+            // console.log(token)
             const{data} = await axios.post(backendUrl +'api/admin/all-doctors', {})
             if(data.success){
                 setDoctors(data.doctors)

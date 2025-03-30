@@ -44,3 +44,7 @@
 .cl-footer :nth-child(2) {
   display: none;
 }
+
+.cl-userButtonPopoverFooter{
+  display: none;
+}

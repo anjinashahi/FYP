@@ -1,121 +1,125 @@
-"use client"
+//appointment booking with docid
 
-import { useState } from "react"
+import React, {useState, useEffect, useContext} from 'react'
+import {useParams} from 'react-router-dom'
+import {AppContext} from '../../context/AppContext'
+import { assets } from '../../assets/assets'
 
-const DoctorProfile = () => {
-  const [selectedDay, setSelectedDay] = useState(0)
-  const [selectedTime, setSelectedTime] = useState(null)
+const Appointment = () => {
+    const {docId} = useParams()
+    const {doctors, currencySymbol} = useContext(AppContext)
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const days = [
-    { day: "MON", date: 10 },
-    { day: "TUE", date: 11 },
-    { day: "WED", date: 12 },
-    { day: "THU", date: 13 },
-    { day: "FRI", date: 14 },
-    { day: "SAT", date: 15 },
-    { day: "SUN", date: 16 },
-  ]
+    const [docInfo, setDocInfo] = useState(null)
+    const [docSlots, setDocSlots] = useState([])
+    const [slotIndex, setSlotIndex] = useState(0)
+    const [slotTime, setSlotTime] = useState('')
 
-  const timeSlots = ["6:00 am", "8:30 am", "9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", "11:30 am"]
+    const fetchDocInfo = async () => {
+        const docInfo = doctors.find(doc=> doc._id === docId)
+        setDocInfo(docInfo)
+        console.log(docInfo)
+        
+    }
 
-  return (
-    <div className="max-w-3xl mx-auto p-4">
-      <div className="overflow-hidden rounded-lg border border-gray-200 shadow">
-        <div className="flex flex-col md:flex-row">
-          <div className="bg-blue-medium p-4 md:w-64 flex justify-center">
-            <img
-              src="/placeholder.svg?height=200&width=200"
-              alt="Dr. Richard James"
-              className="rounded-md"
-              width={200}
-              height={200}
-            />
-          </div>
-          <div className="flex-1 p-6">
-            <div className="flex items-center gap-2 mb-1">
-              <h2 className="text-xl font-bold">Dr. Richard James</h2>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="h-5 w-5 text-blue-medium"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-                  clipRule="evenodd"
-                />
-              </svg>
+    const getAvailableSlots = async () => {
+        setDocSlots([])
+        //getting current date
+        let today = new Date()
+
+        for (let i = 0; i<7; i++){
+            //getting date with index
+            let currentDate = new Date(today)
+            currentDate.setDate(today.getDate() + i)
+
+            //setting end of the date with index
+            let endTime = new Date()
+            endTime.setDate(today.getDate() + i)
+            endTime.setHours(21,0,0,0)
+
+            //setting hours
+            if (today.getDate() === currentDate.getDate()){
+                currentDate.setHours(currentDate.getHours() >10 ? currentDate.getHours() + 1 : 10)
+                currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0)
+            }else{
+                currentDate.setHours(10)
+                currentDate.setMinutes(0)
+            }
+            let timeSlots = []
+            while(currentDate < endTime){
+                let formattedTime = currentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            //add slot to array
+            timeSlots.push({
+                dateTime: new Date(currentDate),
+                time: formattedTime,
+            })
+
+            //incrementing time by 30
+            currentDate.setMinutes(currentDate.getMinutes() + 30)
+            }
+
+            setDocSlots((prev) => [...prev,timeSlots])
+        }
+    }
+    useEffect(() => {
+        fetchDocInfo()
+    }, [doctors, docId])
+
+    useEffect(() => {
+        getAvailableSlots()
+    },[docInfo])
+    useEffect(() => {
+        console.log(docSlots)
+    },[docSlots])
+
+    return docInfo &&(
+        <div> 
+            <div className='flex flex-col sm:flex-row gap-4'>
+                <div>
+                    <img className="bg-primary w-full sm:max-w-72 rounded-lg"src = {docInfo.image} alt=""/>
+                </div>
+                <div className='flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-80px] sm:mt-0'>
+                    <p className='flex items-center gap-2 text-2xl font-medium text-gray-900'>
+                        {docInfo.name}
+                        <img className='w-5' src={assets.verified_icon} alt = ""/></p>
+                    <div className='flex items-center gap-2 text-sm mt-1 text-gray-600'>
+                        <p>{docInfo.degree}</p>
+                        <button className='py-0.5 px-2 border text-xs rounded-full'>{docInfo.experience}</button>
+                    </div>
+                    <div>
+                        <p className='flex items-center gap-1 text-sm font-medium text-gray-900 mt-3'>About <img src={assets.info_icon} alt = ""/></p>
+                        <p className='text-sm text-gray-500 max-w-[700px] mt-1'>{docInfo.about}</p>
+                    </div>
+                    <p className='text-gray-500 font-medium mt-4'>
+                        Appointment fee: <span className='text-gray-600'>{currencySymbol}{docInfo.fees}</span></p>
+                </div>
             </div>
-            <div className="flex items-center gap-2 mb-4">
-              <p className="text-sm text-gray-600">MBBS - General Physician</p>
-              <span className="inline-flex items-center rounded-full border border-gray-200 px-2 py-0.5 text-xs">
-                7 Years
-              </span>
-            </div>
 
-            <div className="mb-4">
-              <div className="flex items-center gap-1 mb-1">
-                <h3 className="text-sm font-medium">About</h3>
-              </div>
-              <p className="text-sm text-gray-600">
-                Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive
-                medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to
-                delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective
-                treatment strategies.
-              </p>
-            </div>
+            {/* booking slots */}
+               <div className='sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700'>
+                <p>Booking Slots</p>
+                <div className='flex gap-3 items-center w-full overflow-x-scroll mt-4'>
+                    {
+                        docSlots.length && docSlots.map((item, index) => (
+                            <div onClick = {() => setSlotIndex(index)}className ={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex===index ? 'bg-primary text-white': 'border border-gray'} `}key={index}>
+                                <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
+                                <p>{item[0] && item[0].datetime.getDate()}</p>
+                            </div>
 
-            <div className="mb-6">
-              <p className="text-sm">
-                Appointment fee: <span className="font-bold">$50</span>
-              </p>
-            </div>
-          </div>
+                        ))
+                    }
+                </div>
+
+                <div className ="flex items-center gap-3 w-full overflow-x-scroll mt-4">
+                    {docSlots.length && docSlots[slotIndex].map((item, index) => (
+                        <p onClick = {()=> setSlotTime(item.time)}className= {`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${item.time === slotTime ? 'bg-primary text-white': 'text-gray-400 border border-gray-300'}`}key={index}>
+                            {item.time.toLowerCase()}
+                        </p>
+                    ))}
+                </div>
+                <button className="bg-primary text-white text-sm font-light px-14 rounded-full my-6">Book an Appointment</button>
+            </div> 
         </div>
-
-        <div className="p-6 border-t">
-          <h3 className="font-medium mb-4">Booking slots</h3>
-
-          <div className="grid grid-cols-7 gap-2 mb-6">
-            {days.map((day, index) => (
-              <button
-                key={day.day}
-                onClick={() => setSelectedDay(index)}
-                className={`flex flex-col items-center justify-center p-2 rounded-full ${
-                  selectedDay === index ? "bg-blue-medium text-white" : "bg-gray-100 hover:bg-gray-200"
-                }`}
-              >
-                <span className="text-xs">{day.day}</span>
-                <span className="font-medium">{day.date}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
-            {timeSlots.map((time) => (
-              <button
-                key={time}
-                onClick={() => setSelectedTime(time)}
-                className={`py-2 px-4 text-sm border rounded-full ${
-                  selectedTime === time
-                    ? "border-blue-medium bg-blue-light/10 text-blue-medium"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                {time}
-              </button>
-            ))}
-          </div>
-
-          <button className="w-full py-2 px-4 bg-blue-medium hover:bg-blue-navy text-white font-medium rounded-md transition-colors">
-            Book an appointment
-          </button>
-        </div>
-      </div>
-    </div>
-  )
+    )
 }
-
-export default DoctorProfile
-
+export default Appointment;
