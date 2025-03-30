@@ -12,4 +12,15 @@ const changeAvailability = async (req, res) => {
     }
 
 }
-export {changeAvailability}
+const doctorList = async (req, res) => {
+    try{
+        console.log("dn cn")
+        const doctors = await doctorModel.find({})
+        res.json({success: true, doctors})
+    }
+    catch(error){
+        console.log(error)
+        res.json({success: false, message: "Internal server error"})
+    }
+}
+export {changeAvailability, doctorList}

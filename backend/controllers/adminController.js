@@ -76,6 +76,7 @@ const loginAdmin = async (req, res)=>{
 //api to get all doc from db
 const allDoctors = async (req, res) => {
     try{
+        console.log(req.headers)
         const doctors = await doctorModel.find({});
         res.json({success: true, doctors})
     }

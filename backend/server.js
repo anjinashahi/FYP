@@ -50,6 +50,7 @@ import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import { connect } from "mongoose";
 import adminRouter from "./routes/adminRoute.js";
+import doctorRouter from "./routes/doctorRoute.js";
 
 //app config
 const app = express();
@@ -63,6 +64,7 @@ connectDB().then(() => {
 
     //api endpoint
     app.use('/api/admin', adminRouter)
+    app.use('/api/doctor', doctorRouter)
 
     app.get('/', (req, res) => {
         res.send('API working fine');
