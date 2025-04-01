@@ -17,6 +17,7 @@ import MyAppointments from './pages/patient/myAppointment'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Appointment from './pages/patient/appointment'
+import MyProfile from './pages/patient/MyProfile'
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
       {/* <Route path = "/all-appointments" element = {<AllAppointments/>} /> */}
       <Route path = "/add-doctor" element = {<AddDoctor/>} />
       <Route path = "/doctor-list" element = {<DoctorList/>} />
+      <Route path = "/my-profile" element = {<MyProfile/>} />
       {/* <Route path = "/appointment-booking" element = {<DoctorProfile/>} />//cn  */}
       {/* <Route path = "/my-appointments" element = {<MyAppointments/>} /> //shadcn */}
       {/* <Route path = "admin-allappointments" element = {<AllAppointments/>} /> //shadcn */}

@@ -6,8 +6,8 @@ import {AppContext} from '../../context/AppContext'
 import { assets } from '../../assets/assets'
 
 const Appointment = () => {
-    const {docId} = useParams()
-    const {doctors, currencySymbol} = useContext(AppContext)
+    const {docID} = useParams()
+    const {doctors, currencySymbol, getDoctorsData} = useContext(AppContext)
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
     const [docInfo, setDocInfo] = useState(null)
@@ -16,7 +16,7 @@ const Appointment = () => {
     const [slotTime, setSlotTime] = useState('')
 
     const fetchDocInfo = async () => {
-        const docInfo = doctors.find(doc=> doc._id === docId)
+        const docInfo = doctors.find(doc=> doc._id === docID)
         setDocInfo(docInfo)
         console.log(docInfo)
         
@@ -35,7 +35,7 @@ const Appointment = () => {
             //setting end of the date with index
             let endTime = new Date()
             endTime.setDate(today.getDate() + i)
-            endTime.setHours(21,0,0,0)
+            endTime.setHours(16,0,0,0)
 
             //setting hours
             if (today.getDate() === currentDate.getDate()){
@@ -49,21 +49,21 @@ const Appointment = () => {
             while(currentDate < endTime){
                 let formattedTime = currentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
             //add slot to array
-            timeSlots.push({
-                dateTime: new Date(currentDate),
-                time: formattedTime,
-            })
-
+                timeSlots.push({
+                    dateTime: new Date(currentDate),
+                    time: formattedTime,
+                })
             //incrementing time by 30
             currentDate.setMinutes(currentDate.getMinutes() + 30)
             }
-
+            if(timeSlots.length){
             setDocSlots((prev) => [...prev,timeSlots])
+            }
         }
     }
     useEffect(() => {
         fetchDocInfo()
-    }, [doctors, docId])
+    }, [doctors, docID])
 
     useEffect(() => {
         getAvailableSlots()
@@ -71,6 +71,9 @@ const Appointment = () => {
     useEffect(() => {
         console.log(docSlots)
     },[docSlots])
+    useEffect(() => {
+        getDoctorsData();
+    }, []); // Removed incorrect `toast.error(error.message)`
 
     return docInfo &&(
         <div> 
@@ -102,8 +105,8 @@ const Appointment = () => {
                     {
                         docSlots.length && docSlots.map((item, index) => (
                             <div onClick = {() => setSlotIndex(index)}className ={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex===index ? 'bg-primary text-white': 'border border-gray'} `}key={index}>
-                                <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
-                                <p>{item[0] && item[0].datetime.getDate()}</p>
+                                <p>{item[0] && daysOfWeek[item[0].dateTime.getDay()]}</p>
+                                <p>{item[0] && item[0].dateTime.getDate()}</p>
                             </div>
 
                         ))
