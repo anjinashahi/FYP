@@ -1,6 +1,6 @@
 //appointment booking with docid
 
-import React, {useState, useEffect, useContext} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import {useParams} from 'react-router-dom'
 import {AppContext} from '../../context/AppContext'
 import { assets } from '../../assets/assets'
