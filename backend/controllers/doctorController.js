@@ -14,7 +14,6 @@ const changeAvailability = async (req, res) => {
 }
 const doctorList = async (req, res) => {
     try{
-        console.log("dn cn")
         const doctors = await doctorModel.find({})
         res.json({success: true, doctors})
     }

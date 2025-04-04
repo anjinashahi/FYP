@@ -48,6 +48,7 @@ const addDoctor = async (req, res) => {
         await newDoctor.save();
 
         res.json({success: true, message: "Doctor added successfully"})
+        
     }
     catch(error){
         console.log(error)
@@ -76,7 +77,7 @@ const loginAdmin = async (req, res)=>{
 //api to get all doc from db
 const allDoctors = async (req, res) => {
     try{
-        console.log(req.headers)
+        console.log(req.user)
         const doctors = await doctorModel.find({});
         res.json({success: true, doctors})
     }

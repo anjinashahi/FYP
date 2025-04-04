@@ -2,11 +2,13 @@ import validator from 'validator'
 import bcrypt from 'bcrypt'
 import userModel from '../models/userModel.js'
 import doctorModel from '../models/doctorModel.js'
+import appointmentModel from '../models/appointmentModel.js'
 import {v2 as cloudinary} from 'cloudinary'
 const registerUser = async (req, res) => {
     try{
-        const {email, password} = req.body
-        if(!email || !password){
+        console.log(req.body)
+        const {name, email, password} = req.body
+        if(!name || !email || !password){
             return res.json({success: false, message: "Please enter all fields"})
         }
         if(!validator.isEmail(email)){
@@ -15,11 +17,13 @@ const registerUser = async (req, res) => {
         if(password.length <5){
             return res.json({success: false, message: "Password must be atleast 5 characters long"})
         } 
+
         //hassing the password
          const salt = await bcrypt.genSalt(10);
          const hashedPassword = await bcrypt.hash(password, salt)
 
          const userData ={
+            name,
             email,
             password: hashedPassword,
          }
@@ -27,6 +31,7 @@ const registerUser = async (req, res) => {
          const newUser = new userModel(userData);
          const user = await newUser.save();
 
+        res.json({success: true, message: "User registered successfully"})  
           
     }catch(error){
         console.log(error)
@@ -95,30 +100,29 @@ const updateProfile = async (req, res) => {
 //api to book appointment
 const bookAppointment = async (req, res) => {
     try{
-        const (useId, docId, date, time) = req.body;
-        const docData = await doctorModel.findById(docId);
-
+        const {userID, docID, slotDate, slotTime} = req.body;
+        const docData = await doctorModel.findById(docID);
         if(!docData.available){
             return res.json({success: false, message: "Doctor not available"})
         }
         let slots_booked = docData.slots_booked;
         //check if the slot is already booked
-        if(Aslots_booked[slotsDate]){
-            if(slots_booked[slotsDate].includes(slotTime)){
+        if(slots_booked[slotDate]){
+            if(slots_booked[slotDate].includes(slotTime)){
                 return res.json({success: false, message: "Slot not aviailable"})
             }else{
-                slots_booked[slotsDate].push(slotTime)
+                slots_booked[slotDate].push(slotTime)
             }
         } else{
-            slots_booked[slotsDate] = []
-            slots_booked[slotsDate].push(slotTime)
+            slots_booked[slotDate] = []
+            slots_booked[slotDate].push(slotTime)
         }
 
-        const userData = await userModel.findById(userId);
+        const userData = await userModel.findOne({clerk_uID: userID});
         delete docData.slots_booked;
         const appointmentData = {
-            userId,
-            docId,
+            userID,
+            docID,
             docData,
             userData,
             amount: docData.fees,
@@ -126,11 +130,12 @@ const bookAppointment = async (req, res) => {
             slotTime,
             date: Date.now()
         }
+        console.log(appointmentData)
         const newAppointment = new appointmentModel(appointmentData);
         await newAppointment.save(); //save the appointment in db
 
         //save new slots data in docData
-        await doctorModel.findByIdAndUpdate(docId, {slots_booked})
+        await doctorModel.findByIdAndUpdate(docID, {slots_booked})
         res.json({success: true, message: "Appointment booked successfully"})
 
     }catch(error){

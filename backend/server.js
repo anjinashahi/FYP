@@ -7,6 +7,8 @@ import { connect } from "mongoose";
 import adminRouter from "./routes/adminRoute.js";
 import doctorRouter from "./routes/doctorRoute.js";
 import userRouter from "./routes/userRoute.js";
+import cookieParser from 'cookie-parser';
+import { clerkMiddleware } from "@clerk/express";
 //app config
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,7 +17,15 @@ connectCloudinary();
 
 connectDB().then(() => {
     app.use(express.json());
-    app.use(cors());
+    app.use(express.urlencoded({ extended: true }));
+    app.use((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // Replace with your frontend URL
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Credentials", "true"); // Allow credentials
+        next();
+    });
+    app.use(cookieParser())
+    app.use(clerkMiddleware())
 
     //api endpoint
     app.use('/api/admin', adminRouter)
