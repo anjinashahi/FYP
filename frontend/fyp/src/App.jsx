@@ -16,12 +16,15 @@ import 'react-toastify/dist/ReactToastify.css'
 import Appointment from './pages/patient/appointment'
 import MyProfile from './pages/patient/MyProfile'
 import MyAppointments from './pages/patient/MyAppointments'
+import { useUser } from '@clerk/clerk-react'
 
 export default function App() {
+  const {user} = useUser()
   return (
     <div className='flex h-screen bg-gray-50'>
     <ToastContainer/>
-    <DashboardNav/>
+    {user && <DashboardNav/> }
+    {/* <DashboardNav/> */}
     <div className="flex-1 flex flex-col overflow-auto">
     <Routes>
       <Route path="/" element={<Home/>} />

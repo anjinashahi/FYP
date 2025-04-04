@@ -15,7 +15,9 @@ import { Route } from 'react-router-dom'
 
 export default function Home() {
   const { user } = useUser()
+  console.log(user)
   if (!user){
+
   return (
      <div
           className="min-h-screen flex flex-col items-center px-4 py-16 sm:px-6 lg:px-8"

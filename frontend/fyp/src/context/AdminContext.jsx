@@ -12,6 +12,7 @@ const AdminContextProvider = (props) => {
         try{
             // const token = await window.Clerk.session.getToken();
             // console.log(token)
+            axios.defaults.withCredentials = true;
             const{data} = await axios.post(backendUrl +'api/admin/all-doctors', {})
             if(data.success){
                 setDoctors(data.doctors)
