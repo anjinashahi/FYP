@@ -3,11 +3,14 @@ import {doctors} from '../assets/assets'
 import axios from 'axios';
 import {toast, ToastContainer} from 'react-toastify'
 import {useState} from 'react'
+
 export const AdminContext = createContext()
 
 const AdminContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL
+    axios.defaults.withCredentials = true;
     const[doctors, setDoctors] = useState([])
+    const[appointments, setAppointments] = useState([])
     const getAllDoctors = async () => {
         try{
             // const token = await window.Clerk.session.getToken();
@@ -39,10 +42,25 @@ const AdminContextProvider = (props) => {
             console.log(error)
         }
     }
+
+    const getAllAppointments = async () => {
+        try{
+            const {data} = await axios.post(backendUrl + 'api/admin/all-appointments', {})
+            if(data.success){
+                setAppointments(data.appointments)
+                console.log(data.appointments)
+            }else{
+                toast.error(data.message)
+            }
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
     const value = {
         doctors,
-        backendUrl, doctors, getAllDoctors,
-        changeAvailability
+        backendUrl, getAllDoctors,
+        changeAvailability, appointments, setAppointments, getAllAppointments
     }
     return (
         <AdminContext.Provider value={value}>

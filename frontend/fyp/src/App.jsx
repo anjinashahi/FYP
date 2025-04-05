@@ -41,7 +41,7 @@ export default function App() {
       <Route path = "/my-profile" element = {<MyProfile/>} />
       <Route path = "/my-appointments" element = {<MyAppointments/>} />
       {/* <Route path = "/appointment-booking" element = {<DoctorProfile/>} />//cn  */}
-      {/* <Route path = "admin-allappointments" element = {<AllAppointments/>} /> //shadcn */}
+      <Route path = "admin-allappointments" element = {<AllAppointments/>} />
     </Routes>
     </div>
     </div>
