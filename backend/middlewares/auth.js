@@ -1,4 +1,5 @@
 import { clerkClient, getAuth } from '@clerk/express';
+import doctorModel from '../models/doctorModel.js'; 
 
 const isAuthenticated = async (req, res, next) => {
     try {
@@ -26,8 +27,14 @@ const getUser = async(req, res, next) => {
     // Use `clerkClient` to access Clerk's Backend SDK methods
     // and get the user's User object
     const user = await clerkClient.users.getUser(userId)
+    console.log(userId)
+    const mongoUser = await doctorModel.findOne({ clerk_uID: userId })
+    if (!mongoUser) {
+        return res.status(404).json({ error: 'User not found' })
+    }
+    
     console.log(user)
-    req.user = user // Attach the user object to the request object
+    req.user = {...user, mongoUser} // Attach the user object to the request object
     
     next() // Proceed to the next middleware or route handler
 }
