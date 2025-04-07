@@ -26,8 +26,9 @@ const getUser = async(req, res, next) => {
     // Use `clerkClient` to access Clerk's Backend SDK methods
     // and get the user's User object
     const user = await clerkClient.users.getUser(userId)
-    
+    console.log(user)
     req.user = user // Attach the user object to the request object
+    
     next() // Proceed to the next middleware or route handler
 }
 

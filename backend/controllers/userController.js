@@ -143,4 +143,43 @@ const bookAppointment = async (req, res) => {
         res.json({success: false, message: "Internal server error"})
     }
 }
-export {registerUser, loginUser, bookAppointment, getProfile, updateProfile}
+
+//api to get user appointments for frontend my-appointment apge
+const listAppointment = async (req, res) => {
+    try{
+        const userID = req.auth.userId;
+        console.log(userID)
+        const appointments = await appointmentModel.find({userID})
+        
+        res.json ({success: true, appointments})
+    }catch(error){
+        console.log(error)
+        res.json({success: false, message: "Internal server error"})
+    }
+}
+//api to cancel appointment
+// const cancelAppointment = async (req, res) => {
+//     try{
+//         const appointmentId = req.body;
+//         const userID = req.auth.userId;
+//         const appointmentData = await appointmentModel.findById(appointmentId);
+//         if(appointmentData.userID !== userID){
+//             return res.json({success: false, message: "You are not authorized to cancel this appointment"})
+//         }
+//         await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled: true})
+//         //releasing doctors slots(booked)
+//         const {docID, slotDate, slotTime} = appointmentData;
+//         const docData = await doctorModel.findById(docID)
+//         const slots_booked = docData.slots_booked
+
+//         slots_booked[slotDate]= slots_booked[slotDate].filter(e=> e !== slotTime)
+//         await doctorModel.findByIdAndUpdate(docID, {slots_booked})
+//         res.json({success: true, message: "Appointment cancelled successfully"})
+
+//     }catch(error){
+//         console.log(error)
+//         res.json({success: false, message: "Internal server error"})
+//     }
+// }
+
+export {registerUser, loginUser, bookAppointment, getProfile, updateProfile, listAppointment}

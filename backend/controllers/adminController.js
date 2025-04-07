@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import {v2 as cloudinary} from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
 import jwt from "jsonwebtoken";
+import appointmentModel from "../models/appointmentModel.js";
 
 const addDoctor = async (req, res) => {
     try{
@@ -30,6 +31,14 @@ const addDoctor = async (req, res) => {
         const uploadedImage = await cloudinary.uploader.upload(imageFile.path, {resource_type: "image"});
         const imageUrl = uploadedImage.secure_url;
 
+        console.log(req.body)
+        const clerk_user = await clerkClient.users.createUser({
+            emailAddress: [email],
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            publicMetadata: { role: 'USER' },
+        });
         const doctorData ={
             name, 
             email,
@@ -86,4 +95,15 @@ const allDoctors = async (req, res) => {
         res.json({success: false, message: "Internal server error"})
     }
 }
-export {addDoctor, loginAdmin, allDoctors}
+//api to get all appointment list in admin
+const appointmentsAdmin = async(req, res) => {
+    try{
+        const appointments = await appointmentModel.find({})
+        res.json({success: true, appointments})
+    }
+    catch(error){
+        console.log(error)
+        res.json({success: false, message: "Internal server error"})
+    }
+}
+export {addDoctor, loginAdmin, allDoctors, appointmentsAdmin}
