@@ -10,6 +10,7 @@ import Symptoms from './pages/doctor/symptoms.jsx'
 import SymptomsForm from './pages/doctor/symptoms.jsx'
 import AdminContextProvider from './context/AdminContext.jsx'
 import AppContextProvider, { AppContext } from './context/AppContext.jsx'
+import DoctorContextProvider from './context/DoctorContext.jsx'
 
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -23,8 +24,10 @@ if (!PUBLISHABLE_KEY) {
     <BrowserRouter>
     <AdminContextProvider>
       <AppContextProvider>
+      <DoctorContextProvider>
       {/* <RouterProvider router={router} /> */} 
       <App/>
+      </DoctorContextProvider>
       </AppContextProvider>
     </AdminContextProvider>
     </BrowserRouter>

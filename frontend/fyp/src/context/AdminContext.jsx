@@ -11,6 +11,7 @@ const AdminContextProvider = (props) => {
     axios.defaults.withCredentials = true;
     const[doctors, setDoctors] = useState([])
     const[appointments, setAppointments] = useState([])
+    const [dashData, setDashData] = useState(false)
     const getAllDoctors = async () => {
         try{
             // const token = await window.Clerk.session.getToken();
@@ -57,10 +58,43 @@ const AdminContextProvider = (props) => {
             console.log(error)
         }
     }
+
+    const getDashData= async () => {
+        try{
+            const {data}= await axios.get(backendUrl + 'api/admin/dashboard', {})
+            if(data.success){
+                setDashData(data.dashData)
+                console.log(data.dashData)
+            }
+            else{
+                toast.error(data.message)
+            }
+        }catch(error){
+            console.log(error)
+            toast.error(error.message)
+        }
+    }
+
+    const cancelAppointment = async (appointmentId)=>{
+        try{
+            const {data} = await axios.post(backendUrl + 'api/admin/cancel-appointment', {appointmentId})
+            if(data.success){
+                toast.success(data.message)
+                getAllAppointments()
+            }else{
+                toast.error(data.message)
+            }
+        }catch(error){
+            console.log(error)
+            toast.error(error.message)
+        }
+    }
     const value = {
         doctors,
         backendUrl, getAllDoctors,
-        changeAvailability, appointments, setAppointments, getAllAppointments
+        changeAvailability, appointments, setAppointments, getAllAppointments,
+        dashData, getDashData,
+        cancelAppointment
     }
     return (
         <AdminContext.Provider value={value}>

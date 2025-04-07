@@ -17,6 +17,7 @@ import Appointment from './pages/patient/appointment'
 import MyProfile from './pages/patient/MyProfile'
 import MyAppointments from './pages/patient/MyAppointments'
 import { useUser } from '@clerk/clerk-react'
+import DoctorAppointments from './pages/doctor/DoctorAppointments'
 
 export default function App() {
   const {user} = useUser()
@@ -42,6 +43,7 @@ export default function App() {
       <Route path = "/my-appointments" element = {<MyAppointments/>} />
       {/* <Route path = "/appointment-booking" element = {<DoctorProfile/>} />//cn  */}
       <Route path = "admin-allappointments" element = {<AllAppointments/>} />
+      <Route path = "doctor-appointments" element = {<DoctorAppointments/>} />
     </Routes>
     </div>
     </div>

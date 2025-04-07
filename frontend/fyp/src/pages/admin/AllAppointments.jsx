@@ -2,9 +2,10 @@ import { useContext } from 'react'
 import { AdminContext } from '../../context/AdminContext.jsx' 
 import { useEffect } from 'react'
 import { AppContext } from '../../context/AppContext.jsx'
+import { assets } from '../../assets/assets.js'
 
 const AllAppointments= () =>{
-  const {appointments, getAllAppointments} = useContext(AdminContext)
+  const {appointments, getAllAppointments, cancelAppointment} = useContext(AdminContext)
   const {calculateAge, slotDateFormat, currencySymbol} = useContext(AppContext)
 
   useEffect(() => {
@@ -39,6 +40,10 @@ const AllAppointments= () =>{
                 <img className= 'w-8 rounded-full bg-gray-200'src= {item.docData.image} alt = ""/><p>{item.docData.name}</p>
               </div>
               <p>{currencySymbol}{item.fees}</p>
+              {item.cancelled 
+              ?<p className='text-red-400 text-x5 font-medium'>Cancelled</p>
+              : <img onClick={()=>cancelAppointment(item._id)} className='w-10 cursor-pointer' src = {assets.cancel_icon} alt=""/>}
+             
           </div>
         ))}
 
