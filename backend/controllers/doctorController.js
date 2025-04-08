@@ -51,7 +51,8 @@ const appointmentComplete = async(req, res)=>{
         }
     }
     catch(error){
-
+        console.log(error)
+        res.json({success: false, message: "Internal server error"})
     }
 }
 
@@ -101,4 +102,28 @@ const doctorDashboard = async(req, res)=>{
         res.json({success: false, message: "Internal server error"})
     }
 }
-export {changeAvailability, doctorList, appointmentsDoctor, appointmentComplete, appointmentCancel, doctorDashboard}
+
+//api to get and edit doctor profile
+const doctorProfile = async(req, res)=>{
+    try{
+        console.log(docId)
+        const {docId} = req.body;
+        const profileData = await doctorModel.findById(docId);
+        res.json({success: true, profileData})
+    }catch(error){
+        console.log(error)
+        res.json({success: false, message: "Internal server error"})
+    }
+}
+//api to update doc profile data
+const updateDoctorProfile = async(req, res)=>{
+    try{
+        const {docId, fees, address, available} = req.body;
+        await doctorModel.findByIdAndUpdate(docId, {fees, address, available});
+        res.json({success: true, message: "Profile updated successfully"})
+    }catch(error){
+        console.log(error)
+        res.json({success: false, message: "Internal server error"})
+    }
+}
+export {changeAvailability, doctorList, appointmentsDoctor, appointmentComplete, appointmentCancel, doctorDashboard,doctorProfile, updateDoctorProfile}
