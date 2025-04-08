@@ -6,7 +6,7 @@ import { AppContext } from "../../context/AppContext.jsx"
 
 
 const Dashboard = () => {
-  const {dashData, getDashData}= useContext(AdminContext)
+  const {dashData, getDashData, cancelAppointment}= useContext(AdminContext)
   const {slotDateFormat} = useContext(AppContext)
   useEffect(() => {
     getDashData()
