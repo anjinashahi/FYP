@@ -3,7 +3,6 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import {v2 as cloudinary} from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
-import jwt from "jsonwebtoken";
 import appointmentModel from "../models/appointmentModel.js";
 import userModel from "../models/userModel.js";
 
@@ -63,6 +62,48 @@ const addDoctor = async (req, res) => {
     catch(error){
         console.log(error)
         res.json({success: false, message: "Internal server error"})
+    }
+}
+
+//api for adding user
+const addUser = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+
+        // Validate input fields
+        if (!name || !email || !password) {
+            return res.json({ success: false, message: "Missing required parameters" });
+        }
+        if (!validator.isEmail(email)) {
+            return res.json({ success: false, message: "Invalid email" });
+        }
+        if (password.length < 6) {
+            return res.json({ success: false, message: "Password must be at least 6 characters long" });
+        }
+
+        // Check if the email already exists
+        const existingUser = await userModel.findOne({ email });
+        if (existingUser) {
+            return res.json({ success: false, message: "Email already in use" });
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create user data
+        const userData = {
+            name,
+            email,
+            password: hashedPassword,
+        };
+
+        // Save the user to the database
+        const newUser = new userModel(userData);
+        await newUser.save();
+
+        res.json({ success: true, message: "User added successfully" });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Internal server error" });
     }
 }
 
@@ -152,4 +193,4 @@ const appointmentCancel = async (req, res) => {
     }
 }
 
-export {addDoctor, loginAdmin, allDoctors, appointmentsAdmin, adminDashboard, appointmentCancel}
+export {addDoctor, loginAdmin, allDoctors, appointmentsAdmin, adminDashboard, appointmentCancel, addUser}
