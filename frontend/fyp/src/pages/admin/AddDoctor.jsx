@@ -63,7 +63,7 @@ export default function AddDoctor() { // Capitalized function name
       console.error(error);
       toast.error(error.message)
     }
-  }; // Corrected misplaced bracket
+  }; 
 
   return (
     <form onSubmit={onSubmitHandler} className="m-5 w-full">
