@@ -1,7 +1,10 @@
-import React from "react"
 import { Search } from "lucide-react"
+import { useState } from "react"
+import axios from "axios"
 
 const SymptomsForm = () => {
+  const [loading, setLoading] = useState(false)
+
   const symptoms = [
     { id: "acne", label: "Acne" },
     { id: "hairThinning", label: "Hair Thinning" },
@@ -10,11 +13,33 @@ const SymptomsForm = () => {
     { id: "weightGain", label: "Weight Gain" },
   ]
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const data = Object.fromEntries(formData)
-    console.log(data)
+
+    // Transform values from 'yes'/'no' → boolean
+    const transformedData = {
+      userID: data.patientId,
+      acne: data.acne === "yes",
+      hairThinning: data.hairThinning === "yes",
+      irregularPeriods: data.irregularPeriods === "yes",
+      hairGrowth: data.hairGrowth === "yes",
+      weightGain: data.weightGain === "yes",
+      remarks: data.remarks,
+    }
+
+    try {
+      setLoading(true)
+      const res = await axios.post("/api/symptoms/submit", transformedData)
+      console.log(res.data)
+      alert("Assessment submitted successfully.")
+    } catch (err) {
+      console.error(err)
+      alert("Submission failed.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -39,6 +64,7 @@ const SymptomsForm = () => {
                     type="text"
                     placeholder="Search patient ID..."
                     className="w-full pl-10 py-2 border border-[#A5D7E8] rounded-md focus:border-[#576CBC] focus:ring-1 focus:ring-[#576CBC] outline-none"
+                    required
                   />
                 </div>
               </div>
@@ -56,7 +82,7 @@ const SymptomsForm = () => {
                         id={`${symptom.id}-yes`}
                         name={symptom.id}
                         value="yes"
-                        className="w-4 h-4 text-[#576CBC] border-[#576CBC] focus:ring-[#576CBC]"
+                        className="w-4 h-4"
                       />
                       <label htmlFor={`${symptom.id}-yes`} className="text-[#0B2447]">
                         Yes
@@ -69,7 +95,7 @@ const SymptomsForm = () => {
                         name={symptom.id}
                         value="no"
                         defaultChecked
-                        className="w-4 h-4 text-[#576CBC] border-[#576CBC] focus:ring-[#576CBC]"
+                        className="w-4 h-4"
                       />
                       <label htmlFor={`${symptom.id}-no`} className="text-[#0B2447]">
                         No
@@ -97,9 +123,10 @@ const SymptomsForm = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-[#19376D] hover:bg-[#0B2447] text-white text-lg py-4 rounded-md transition duration-300 ease-in-out"
             >
-              Submit Assessment
+              {loading ? "Submitting..." : "Submit Assessment"}
             </button>
           </form>
         </div>
@@ -109,4 +136,3 @@ const SymptomsForm = () => {
 }
 
 export default SymptomsForm
-

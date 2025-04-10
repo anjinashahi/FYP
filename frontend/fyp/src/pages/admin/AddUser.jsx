@@ -13,19 +13,16 @@ const AddUser = () => {
     const onSubmitHandler = async (event) => {
         event.preventDefault();
         try {
-          const formData = new FormData()
-          formData.append('name', name) 
-          formData.append('email', email)
-          formData.append('password', password)
-    
-          //cosole.log(formData)
-          formData.forEach((value, key) => {
-            console.log(`${key} ${value}`)
-          })
-          const {data} = await axios.post(backendUrl + 'api/admin/add-user', formData)
-          if(data.sucess){
+            const formData = {
+                name: name,
+                email: email,
+                password: password
+              };
+              console.log(formData)
+            const {data} = await axios.post(backendUrl + 'api/admin/add-user', formData)
+            if(data.success){
             toast.success('Patient Added Successfully')
-            console.log("sucess")
+            console.log("success")
             setName('')
             setEmail('')
             setPassword('')

@@ -39,7 +39,7 @@ const AllAppointments= () =>{
               <div>
                 <img className= 'w-8 rounded-full bg-gray-200'src= {item.docData.image} alt = ""/><p>{item.docData.name}</p>
               </div>
-              <p>{currencySymbol}{item.fees}</p>
+              <p>{currencySymbol}{item.docData.fees}</p>
               {item.cancelled 
               ?<p className='text-red-400 text-x5 font-medium'>Cancelled</p>
               : <img onClick={()=>cancelAppointment(item._id)} className='w-10 cursor-pointer' src = {assets.cancel_icon} alt=""/>}

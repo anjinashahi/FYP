@@ -42,7 +42,7 @@ export default function AddDoctor() { // Capitalized function name
         console.log(`${key} ${value}`)
       })
       const {data} = await axios.post(backendUrl + 'api/admin/add-doctor', formData)
-      if(data.sucess){
+      if(data.success){
         toast.success('Doctor Added Successfully')
         console.log("sucess")
         setDocImg(false)

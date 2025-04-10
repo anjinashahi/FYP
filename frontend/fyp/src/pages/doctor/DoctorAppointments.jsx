@@ -33,7 +33,7 @@ const DoctorAppointments = () => {
                         </div>
                         <p className="max-sm:hidden">34</p>
                         <p>{slotDateFormat(item.slotDate)}, {item.slotTime}</p>
-                        <p>{currencySymbol} 1000</p>
+                        <p>{currencySymbol }{item.docData.fees}</p>
                         {
                             item.cancelled
                             ?<p className='text-red-400 text-xs font-medium'>Cancelled</p>
