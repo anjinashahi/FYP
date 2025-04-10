@@ -20,7 +20,7 @@ const addDoctor = async (req, res) => {
         if (!validator.isEmail(email)) {
             return res.json({ success: false, message: "Invalid email" });
         }
-        if (password.length < 6) {
+        if (password.length < 8) {
             return res.json({ success: false, message: "Password must be at least 6 characters long" });
         }
         //hasing doc password
@@ -32,13 +32,7 @@ const addDoctor = async (req, res) => {
         const imageUrl = uploadedImage.secure_url;
 
         console.log(req.body)
-        const clerk_user = await clerkClient.users.createUser({
-            emailAddress: [email],
-            firstName: firstName,
-            lastName: lastName,
-            password: password,
-            publicMetadata: { role: 'USER' },
-        });
+
         const doctorData ={
             name, 
             email,
@@ -69,7 +63,7 @@ const addDoctor = async (req, res) => {
 const addUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
-
+        console.log(req.body)
         // Validate input fields
         if (!name || !email || !password) {
             return res.json({ success: false, message: "Missing required parameters" });
@@ -77,7 +71,7 @@ const addUser = async (req, res) => {
         if (!validator.isEmail(email)) {
             return res.json({ success: false, message: "Invalid email" });
         }
-        if (password.length < 6) {
+        if (password.length < 8) {
             return res.json({ success: false, message: "Password must be at least 6 characters long" });
         }
 

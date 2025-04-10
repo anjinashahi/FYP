@@ -42,8 +42,10 @@ const appointmentComplete = async(req, res)=>{
         const {appointmentId} = req.body;
 
         const appointmentData = await appointmentModel.findById(appointmentId);
-        if(appointmentData && appointmentData.docId == _id){
-            await appointmentModel.findByIdAndUpdate(appointmentId, {completed: true})
+        console.log(appointmentData)
+        console.log(appointmentId, _id)
+        if(appointmentData && appointmentData.docID == _id){
+            await appointmentModel.findByIdAndUpdate(appointmentId, {isCompleted: true})
             res.json({success: true, message: "Appointment marked as completed"})
         }
         else{
@@ -63,7 +65,7 @@ const appointmentCancel= async(req, res)=>{
         const {appointmentId} = req.body;
 
         const appointmentData = await appointmentModel.findById(appointmentId);
-        if(appointmentData && appointmentData.docId == _id){
+        if(appointmentData && appointmentData.docID == _id){
             await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled: true})
             res.json({success: true, message: "Appointment cancelled"})
         }

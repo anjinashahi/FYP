@@ -9,6 +9,7 @@ import doctorRouter from "./routes/doctorRoute.js";
 import userRouter from "./routes/userRoute.js";
 import cookieParser from 'cookie-parser';
 import { clerkMiddleware } from "@clerk/express";
+import { getUser } from "./middlewares/auth.js";
 //app config
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,7 +27,7 @@ connectDB().then(() => {
     });
     app.use(cookieParser())
     app.use(clerkMiddleware())
-
+    app.use(getUser)
     //api endpoint
     app.use('/api/admin', adminRouter)
     app.use('/api/doctor', doctorRouter)

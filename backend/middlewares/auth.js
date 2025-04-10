@@ -32,8 +32,6 @@ const getUser = async(req, res, next) => {
     if (!mongoUser) {
         return res.status(404).json({ error: 'User not found' })
     }
-    
-    console.log(user)
     req.user = {...user, mongoUser} // Attach the user object to the request object
     
     next() // Proceed to the next middleware or route handler
@@ -49,26 +47,49 @@ const isAdmin = (req, res, next) => {
     }
 }
 
-const createClerkUser = async (req, res) => {
+const createClerkPatient = async (req, res, next) => {
     try {
-        const { email, firstName, lastName, password } = req.body;
+        const { email, patientName, password } = req.body;
 
-        if (!email || !firstName || !lastName || !password) {
+        if (!email || !patientName || !password) {
             return res.status(400).json({ message: 'All fields are required' });
         }
         console.log(req.body)
         const user = await clerkClient.users.createUser({
             emailAddress: [email],
-            firstName: firstName,
-            lastName: lastName,
+            patientName: patientName,
             password: password,
-            publicMetadata: { role: 'USER' },
+            publicMetadata: { role: 'PATIENT' },
         });
 
-        res.status(201).json({ success: true , message: 'User created successfully', user });
+        req.clerkData = clerkUser; // Attach the user object to the request object
+        next(); // Proceed to the next middleware or route handler
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({success:false, message: 'Internal Server Error' });
     }
 };
-export { isAuthenticated, getUser, isAdmin, createClerkUser };
+
+const createClerkDoctor = async (req, res, next) => {
+    try {
+        const { email, name, password } = req.body;
+
+        if (!email || !name || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+        console.log(req.body)
+        const clerkUser = await clerkClient.users.createUser({
+            emailAddress: [email],
+            username: name,
+            password: password,
+            publicMetadata: { role: 'DOCTOR' },
+        });
+
+        req.clerkData = clerkUser; // Attach the user object to the request object
+        next(); // Proceed to the next middleware or route handler
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).json({success:false, message: 'Internal Server Error' });
+    }
+};
+export { isAuthenticated, getUser, isAdmin, createClerkPatient, createClerkDoctor };
