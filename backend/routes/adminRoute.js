@@ -3,7 +3,7 @@ import { addDoctor, allDoctors, loginAdmin, appointmentsAdmin, adminDashboard, a
 import upload from "../middlewares/multer.js";
 import authAdmin from "../middlewares/authAdmin.js";
 import { changeAvailability } from "../controllers/doctorController.js";
-import { getUser, isAuthenticated, isAdmin, createClerkDoctor} from "../middlewares/auth.js";
+import { getUser, isAuthenticated, isAdmin, createClerkDoctor, createClerkPatient} from "../middlewares/auth.js";
 
 
 const adminRouter = express.Router()
@@ -11,11 +11,11 @@ const adminRouter = express.Router()
 // adminRouter.post("/add-doctor", authAdmin, upload.single('image'), addDoctor);
 adminRouter.post("/add-doctor", upload.single('image'), createClerkDoctor,  addDoctor);
 adminRouter.post("/login", loginAdmin);
-adminRouter.post("/all-doctors", getUser, isAdmin,  allDoctors);
+adminRouter.post("/all-doctors", isAdmin,  allDoctors);
 adminRouter.post("/change-availability", changeAvailability);
 adminRouter.get("/appointments", appointmentsAdmin)
 adminRouter.get("/dashboard", adminDashboard);
 adminRouter.post("/cancel-appointment", appointmentCancel);
-adminRouter.post("/add-user", getUser, addUser)
+adminRouter.post("/add-user", createClerkPatient, addUser)
 
 export default adminRouter

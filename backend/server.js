@@ -19,12 +19,12 @@ connectCloudinary();
 connectDB().then(() => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use((req, res, next) => {
-        res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // Replace with your frontend URL
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        res.header("Access-Control-Allow-Credentials", "true"); // Allow credentials
-        next();
-    });
+    app.use(cors({
+        origin: "http://localhost:5173", // Replace with your frontend URL
+        credentials: true, // Allow cookies and credentials
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
+        allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"], // Allowed headers
+    }));
     app.use(cookieParser())
     app.use(clerkMiddleware())
     app.use(getUser)

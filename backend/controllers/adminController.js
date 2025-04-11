@@ -45,6 +45,7 @@ const addDoctor = async (req, res) => {
             fees,
             address: address,
             date: Date.now(),
+            clerk_uID: req.clerkUser.id,
             
         }
         const newDoctor = new doctorModel(doctorData);
@@ -63,6 +64,8 @@ const addDoctor = async (req, res) => {
 const addUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
+        const clerkUser = req.clerkUser;
+        console.log(clerkUser)
         console.log(req.body)
         // Validate input fields
         if (!name || !email || !password) {
@@ -88,6 +91,7 @@ const addUser = async (req, res) => {
             name,
             email,
             password: hashedPassword,
+            clerk_uID: clerkUser.id,
         };
 
         // Save the user to the database

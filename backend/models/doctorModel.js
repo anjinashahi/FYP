@@ -1,3 +1,4 @@
+import { clerkClient } from "@clerk/express";
 import mongoose from "mongoose";
 
 const doctorSchema = new mongoose.Schema({
@@ -13,7 +14,8 @@ const doctorSchema = new mongoose.Schema({
     fees: {type: Number, required: true},
     address: {type: String, required: true},
     date: {type: Number, required: true},
-    slots_booked: {type:Object, default: {}}
+    slots_booked: {type:Object, default: {}},
+    clerk_uID: {type: String, required: true},
 
 }, {minimize:false})
 
