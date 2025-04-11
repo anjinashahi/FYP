@@ -11,7 +11,9 @@ import SymptomsForm from './pages/doctor/symptoms.jsx'
 import AdminContextProvider from './context/AdminContext.jsx'
 import AppContextProvider, { AppContext } from './context/AppContext.jsx'
 import DoctorContextProvider from './context/DoctorContext.jsx'
+import axios from 'axios'
 
+axios.defaults.withCredentials = true
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 

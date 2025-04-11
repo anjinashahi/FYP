@@ -20,6 +20,7 @@ import { useUser } from '@clerk/clerk-react'
 import DoctorAppointments from './pages/doctor/DoctorAppointments'
 import DoctorProfile from './pages/doctor/DoctorProfile'
 import AddUser from './pages/admin/AddUser'
+// import DashboardPage from './pages/doctor/dashboard'
 
 export default function App() {
   const {user} = useUser()
@@ -48,6 +49,7 @@ export default function App() {
       <Route path = "admin-allappointments" element = {<AllAppointments/>} />
       <Route path = "doctor-appointments" element = {<DoctorAppointments/>} />
       <Route path = "doctor-profile" element = {<DoctorProfile/>} />
+      {/* <Route path = "dashboard" element = {<DashboardPage/>} /> */}
     </Routes>
     </div>
     </div>
