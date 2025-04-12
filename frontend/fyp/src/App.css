@@ -48,3 +48,10 @@
 .cl-userButtonPopoverFooter{
   display: none;
 }
+.cl-userButtonPopoverActions :first-child{
+  display: none;
+}
+.cl-rootBox {
+  margin-bottom: 20px;
+  margin-left: 20px;
+}

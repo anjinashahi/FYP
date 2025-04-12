@@ -3,34 +3,33 @@ import { Link} from 'react-router-dom'
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
 import { useUser } from '@clerk/clerk-react'
 
-const navigation = [
-]
-
-const navigationPatient = [
-  {name: "Appointment-booking", href: "/doctors", icon: LayoutDashboard, current: true},
-  {name: "My Appointments", href: "/my-appointments", icon: LayoutDashboard, current: false},
-  {name: "Medical Records", href: "/medical-records", icon: LayoutDashboard, current: false},
-  {name: "Profile Settings", href: "/my-profile", icon: LayoutDashboard, current: false},
-]
-const navigationAdmin = [
-  {name: "Dashboard", href:"/admin-dashboard", icon: LayoutDashboard, current: true},
-  {name: "Doctor List", href: "/doctor-list", icon: LayoutDashboard, current: false},
-  {name: "Add Doctor", href: "/add-doctor", icon: LayoutDashboard, current: false},
-  {name: "Add User", href: "/add-user", icon: LayoutDashboard, current: false},
-  {name: "Appointment List", href: "/admin-allappointments", current: false},
-]
-const navigationDoctor = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard, current: true },
-  { name: "Symptoms", href: "/symptoms", icon: Users, current: false },
-  { name: "Blood Test", href: "/bloodtest", icon: MessageSquare, current: false },
-  { name: "Ultrasound", href: "/ultrasound", icon: Calendar, current: false },
-  { name: "Medical Record", href: "/records", icon: FileText, current: false },
-  // { name: "Analytics", href: "/analytics", icon: BarChart2, current: false },
-  { name: "Doctors", href: "/doctors", icon: Receipt, current: false },
-  { name: "Settings", href: "/settings", icon: Settings, current: false },
-]
 
 export default function DashboardNav() {
+  const navigation = [
+  ]
+  const navigationPatient = [
+    {name: "Appointment-booking", href: "/doctors", icon: LayoutDashboard, current: true},
+    {name: "My Appointments", href: "/my-appointments", icon: LayoutDashboard, current: false},
+    {name: "Medical Records", href: "/medical-records", icon: LayoutDashboard, current: false},
+    {name: "Profile Settings", href: "/my-profile", icon: LayoutDashboard, current: false},
+  ]
+  const navigationAdmin = [
+    {name: "Dashboard", href:"/admin-dashboard", icon: LayoutDashboard, current: true},
+    {name: "Doctor List", href: "/doctor-list", icon: LayoutDashboard, current: false},
+    {name: "Add Doctor", href: "/add-doctor", icon: LayoutDashboard, current: false},
+    {name: "Add User", href: "/add-user", icon: LayoutDashboard, current: false},
+    {name: "Appointment List", href: "/admin-allappointments", current: false},
+  ]
+  const navigationDoctor = [
+    { name: "Dashboard", href: "/", icon: LayoutDashboard, current: true },
+    { name: "Symptoms", href: "/symptoms", icon: Users, current: false },
+    { name: "Blood Test", href: "/bloodtest", icon: MessageSquare, current: false },
+    { name: "Ultrasound", href: "/ultrasound", icon: Calendar, current: false },
+    { name: "Medical Record", href: "/records", icon: FileText, current: false },
+    // { name: "Analytics", href: "/analytics", icon: BarChart2, current: false },
+    { name: "Doctors", href: "/doctors", icon: Receipt, current: false },
+    { name: "Settings", href: "/settings", icon: Settings, current: false },
+  ]
   const { user } = useUser()
   const role = user.publicMetadata.role
   if(role==="ADMIN"){

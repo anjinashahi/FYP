@@ -13,6 +13,8 @@ import DashboardNav from './components/ui/dashboard-nav'
 import SymptomsForm from './pages/doctor/symptoms'
 import { Route } from 'react-router-dom'
 import { assets } from './assets/assets'
+import Dashboard from './pages/admin/Dashboard'
+import Doctors from './pages/doctor/doctors'
 
 export default function Home() {
   const { user } = useUser()
@@ -105,12 +107,26 @@ export default function Home() {
   )
 }
 else{
-  return(
-    <div >
-      {/* <DashboardNav/> */}
-      <DashboardPage/>
-    </div>
-  )
+  if (user.publicMetadata.role === "DOCTOR") {
+    return(
+      <div>
+        <DashboardPage/>
+      </div>
+    )}
+    else if (user.publicMetadata.role === "ADMIN") {
+      return(
+        <div>
+        <Dashboard/>
+        </div>
+      )
+    }
+    else{
+      return(
+        <div>
+          <Doctors/>
+        </div>
+      )
+    }
 }
 }
 

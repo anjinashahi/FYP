@@ -24,12 +24,84 @@ import path from 'path'
 // import DashboardPage from './pages/doctor/dashboard'
 
 export default function App() {
-  const {user} = useUser()
-  const routesArray = [
+  const { isLoaded, user } = useUser()
+
+  if (!isLoaded) {
+    // Handle loading state
+    return null
+  }
+
+  if (!user) return null
+
+  const navigationRoutes = [
+    {path: "/", element: <Home/>},
+  ]
+  const adminRoutes = [
     {path: "/", element: <Home/>},
     {path : "/login/", element: <LoginPage/>},
     {path : "/symptoms/", element: <Symptoms/>},
+    {path : "/bloodtest/", element: <BloodTestForm/>},
+    {path : "/ultrasound/", element: <PatientUploadSearch/>},
+    {path : "/doctors/", element: <Doctors/>},
+    {path : "/admin-dashboard/", element: <Dashboard/>},
+    {path : "/add-doctor/", element: <AddDoctor/>},
+    {path : "/add-user/", element: <AddUser/>},
+    {path : "/doctor-list/", element: <DoctorList/>},
+    {path : "/my-profile/", element: <MyProfile/>},
+    {path : "/my-appointments/", element: <MyAppointments/>},
+    {path : "/appointment/:docID/", element: <Appointment/>},
+    {path : "/admin-allappointments/", element: <AllAppointments/>},
+    {path : "/doctor-appointments/", element: <DoctorAppointments/>},
+    {path : "/doctor-profile/", element: <DoctorProfile/>},
+    
   ]
+  const doctorRoutes = [
+    {path: "/", element: <Home/>},
+    {path : "/login/", element: <LoginPage/>},
+    {path : "/symptoms/", element: <Symptoms/>},
+    {path : "/bloodtest/", element: <BloodTestForm/>},
+    {path : "/ultrasound/", element: <PatientUploadSearch/>},
+    {path : "/doctors/", element: <Doctors/>},
+    {path : "/admin-dashboard/", element: <Dashboard/>},
+    {path : "/add-doctor/", element: <AddDoctor/>},
+    {path : "/add-user/", element: <AddUser/>},
+    {path : "/doctor-list/", element: <DoctorList/>},
+    {path : "/my-profile/", element: <MyProfile/>},
+    {path : "/my-appointments/", element: <MyAppointments/>},
+    {path : "/appointment/:docID/", element: <Appointment/>},
+    {path : "/admin-allappointments/", element: <AllAppointments/>},
+    {path : "/doctor-appointments/", element: <DoctorAppointments/>},
+    {path : "/doctor-profile/", element: <DoctorProfile/>},
+  ]
+  const patientRoutes = [
+    {path: "/", element: <Home/>},
+    {path : "/login/", element: <LoginPage/>},
+    {path : "/symptoms/", element: <Symptoms/>},
+    {path : "/bloodtest/", element: <BloodTestForm/>},
+    {path : "/ultrasound/", element: <PatientUploadSearch/>},
+    {path : "/doctors/", element: <Doctors/>},
+    {path : "/admin-dashboard/", element: <Dashboard/>},
+    {path : "/add-doctor/", element: <AddDoctor/>},
+    {path : "/add-user/", element: <AddUser/>},
+    {path : "/doctor-list/", element: <DoctorList/>},
+    {path : "/my-profile/", element: <MyProfile/>},
+    {path : "/my-appointments/", element: <MyAppointments/>},
+    {path : "/appointment/:docID/", element: <Appointment/>},
+    {path : "/admin-allappointments/", element: <AllAppointments/>},
+    {path : "/doctor-appointments/", element: <DoctorAppointments/>},
+    {path : "/doctor-profile/", element: <DoctorProfile/>},
+  ]
+  console.log(user)
+  const role = user.publicMetadata.role
+  if(role==="ADMIN"){
+    navigationRoutes.push(...adminRoutes)
+  }else if(role==="DOCTOR"){
+    navigationRoutes.push(...doctorRoutes)
+  }else if(role==="PATIENT"){
+    navigationRoutes.push(...patientRoutes)
+  }else{
+    navigationRoutes.push(...adminRoutes)
+  }
   return (
     <div className='flex h-screen bg-gray-50'>
     <ToastContainer/>
@@ -37,24 +109,28 @@ export default function App() {
     {/* <DashboardNav/> */}
     <div className="flex-1 flex flex-col overflow-auto">
     <Routes>
-      <Route path="/" element={<Home/>} />
+      {navigationRoutes.map((route, index) => (
+        <Route key={index} path={route.path} element={route.element} />
+      ))}
+
+      {/* <Route path="/" element={<Home/>} />
       <Route path="/login/" element={<LoginPage/>} />
       <Route path="/symptoms/" element={<Symptoms/>} />
       <Route path="/bloodtest/" element = {<BloodTestForm/>} />
       <Route path = "/ultrasound/" element = {<PatientUploadSearch/>} />
       <Route path = "appointment/:docID" element = {<Appointment/>} />
       <Route path = "/doctors" element = {<Doctors/>} />
-      <Route path = "/admin-dashboard" element = {<Dashboard/>} />
+      <Route path = "/admin-dashboard" element = {<Dashboard/>} /> */}
       {/* <Route path = "/all-appointments" element = {<AllAppointments/>} /> */}
-      <Route path = "/add-doctor" element = {<AddDoctor/>} />
+      {/* <Route path = "/add-doctor" element = {<AddDoctor/>} />
       <Route path = "/add-user" element ={<AddUser/>} />
       <Route path = "/doctor-list" element = {<DoctorList/>} />
       <Route path = "/my-profile" element = {<MyProfile/>} />
-      <Route path = "/my-appointments" element = {<MyAppointments/>} />
+      <Route path = "/my-appointments" element = {<MyAppointments/>} /> */}
       {/* <Route path = "/appointment-booking" element = {<DoctorProfile/>} />//cn  */}
-      <Route path = "admin-allappointments" element = {<AllAppointments/>} />
+      {/* <Route path = "admin-allappointments" element = {<AllAppointments/>} />
       <Route path = "doctor-appointments" element = {<DoctorAppointments/>} />
-      <Route path = "doctor-profile" element = {<DoctorProfile/>} />
+      <Route path = "doctor-profile" element = {<DoctorProfile/>} /> */}
       {/* <Route path = "dashboard" element = {<DashboardPage/>} /> */}
     </Routes>
     </div>
