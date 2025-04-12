@@ -20,10 +20,16 @@ import { useUser } from '@clerk/clerk-react'
 import DoctorAppointments from './pages/doctor/DoctorAppointments'
 import DoctorProfile from './pages/doctor/DoctorProfile'
 import AddUser from './pages/admin/AddUser'
+import path from 'path'
 // import DashboardPage from './pages/doctor/dashboard'
 
 export default function App() {
   const {user} = useUser()
+  const routesArray = [
+    {path: "/", element: <Home/>},
+    {path : "/login/", element: <LoginPage/>},
+    {path : "/symptoms/", element: <Symptoms/>},
+  ]
   return (
     <div className='flex h-screen bg-gray-50'>
     <ToastContainer/>

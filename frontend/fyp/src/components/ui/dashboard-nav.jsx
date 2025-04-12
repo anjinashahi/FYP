@@ -1,7 +1,25 @@
 import { LayoutDashboard, Users, MessageSquare, Calendar, FileText, BarChart2, Receipt, Settings } from "lucide-react"
 import { Link} from 'react-router-dom'
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
+import { useUser } from '@clerk/clerk-react'
+
 const navigation = [
+]
+
+const navigationPatient = [
+  {name: "Appointment-booking", href: "/doctors", icon: LayoutDashboard, current: true},
+  {name: "My Appointments", href: "/my-appointments", icon: LayoutDashboard, current: false},
+  {name: "Medical Records", href: "/medical-records", icon: LayoutDashboard, current: false},
+  {name: "Profile Settings", href: "/my-profile", icon: LayoutDashboard, current: false},
+]
+const navigationAdmin = [
+  {name: "Dashboard", href:"/admin-dashboard", icon: LayoutDashboard, current: true},
+  {name: "Doctor List", href: "/doctor-list", icon: LayoutDashboard, current: false},
+  {name: "Add Doctor", href: "/add-doctor", icon: LayoutDashboard, current: false},
+  {name: "Add User", href: "/add-user", icon: LayoutDashboard, current: false},
+  {name: "Appointment List", href: "/admin-allappointments", current: false},
+]
+const navigationDoctor = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard, current: true },
   { name: "Symptoms", href: "/symptoms", icon: Users, current: false },
   { name: "Blood Test", href: "/bloodtest", icon: MessageSquare, current: false },
@@ -12,27 +30,16 @@ const navigation = [
   { name: "Settings", href: "/settings", icon: Settings, current: false },
 ]
 
-// const navigationPatient = [
-//   {name: "Appointment-booking", href: "/doctors", current: true},
-//   {name: "My Appointments", href: "/my-appointments", current: false},
-//   {name: "Medical Records", href: "/medical-records", current: false},
-//   {name: "Profile Settings", href: "/profile-settings", current: false},
-// ]
-// const navigationAdmin = [
-//   {name: "Dashboard", href:"/admin-dashboard", current: true},
-//   {name: "Doctor List", href: "/doctor-list", current: false},
-//   {name: "Add Doctor", href: "/add-doctor", current: false},
-//   {name: "Add User", href: "/add-user", current: false},
-//   {name: "Appointment List", href: "/admin-allappointments", current: false},
-// ]
-// const navigationDoctor = [
-
-// ]
-
 export default function DashboardNav() {
   const { user } = useUser()
   const role = user.publicMetadata.role
   if(role==="ADMIN"){
+    navigation.push(...navigationAdmin)
+  }else if(role==="DOCTOR"){
+    navigation.push(...navigationDoctor)
+  }else if(role==="PATIENT"){
+    navigation.push(...navigationPatient)
+  }else{
     navigation.push(...navigationAdmin)
   }
   return (
