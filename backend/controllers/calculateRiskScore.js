@@ -28,17 +28,7 @@ function calculateRiskScore(data) {
         riskScore += 2;
     }
 
-    // 6. Androstenedione
-    if (androstenedione > 3) {
-        riskScore += 2;
-    }
-
-    // 7. SHBG
-    if (shbg < 30) {
-        riskScore += 2;
-    }
-
-    // Determine risk category
+    // Risk category
     let riskCategory = "Low Risk";
     if (riskScore >= 6 && riskScore <= 12) {
         riskCategory = "Moderate Risk";
@@ -54,4 +44,6 @@ function calculateRiskScore(data) {
 }
 
 module.exports = { calculateRiskScore };
-console.log(calculateRiskScore({ fsh: 20, lh: 20, testosterone: 80, insulin: 15, androstenedione: 2, shbg: 40 }));
+
+// Quick test
+// console.log(calculateRiskScore({ fsh: 20, lh: 20, testosterone: 80, insulin: 15, androstenedione: 2, shbg: 40 }));

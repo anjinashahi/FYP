@@ -10,6 +10,7 @@ import userRouter from "./routes/userRoute.js";
 import cookieParser from 'cookie-parser';
 import { clerkMiddleware } from "@clerk/express";
 import { getUser } from "./middlewares/auth.js";
+import symptomRouter from "./routes/symtomsRoute.js";
 //app config
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,6 +33,7 @@ connectDB().then(() => {
     app.use('/api/admin', adminRouter)
     app.use('/api/doctor', doctorRouter)
     app.use('/api/user', userRouter)
+    app.use('/api/symptoms', symptomRouter)
     app.get('/', (req, res) => {
         res.send('API working fine');
     });

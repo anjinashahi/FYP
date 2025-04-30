@@ -32,11 +32,11 @@ const getUser = async(req, res, next) => {
         if (!user) {
             return res.status(404).json({ success:false, message: 'User not found' })
         }
-        console.log("================================================")
 
         let mongoUser;
         if(user.publicMetadata.role === "DOCTOR"){
             mongoUser = await doctorModel.findOne({ clerk_uID: userId })
+            console.log("0000000000000000000000")
         }else{
             mongoUser = await userModel.findOne({ clerk_uID: userId })
         }

@@ -1,15 +1,18 @@
-import symptomModel from "../models/symptomModel";
+import symptomModel from "../models/symptomModel.js";
 
 const addSymptoms = async (req, res) => {
     try{
-        const{ userID, doctorID, acne, hairThinning, irregularPeriods, hairGrowth, weightGain, additionNotes } = req.body;
-
+        const{ email, acne, hairThinning, irregularPeriods, hairGrowth, weightGain, remarks } = req.body;
+        console.log(req.user.mongoUser)
+        const doctorID = req.user.mongoUser._id
+        console.log({doctorID})
         const newEntry = new symptomModel({
-            userID,
+            email,
             doctorID,
             acne,
             hairThinning,
-            irregularPeriods
+            irregularPeriods,
+            additionalNotes: remarks,
           });
       
           await newEntry.save();
