@@ -52,6 +52,8 @@
   display: none;
 }
 .cl-rootBox {
-  margin-bottom: 20px;
-  margin-left: 20px;
+  /* margin-bottom: 20px;
+  margin-left: 20px; */
+  margin: 0 auto;
+  margin-bottom: 10px;
 }

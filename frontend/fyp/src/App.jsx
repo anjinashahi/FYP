@@ -31,10 +31,11 @@ export default function App() {
     return null
   }
 
-  if (!user) return null
+  if (!user) return <LoginPage/>
 
   const navigationRoutes = [
     {path: "/", element: <Home/>},
+    {path : "/login/", element: <LoginPage/>},
   ]
   const adminRoutes = [
     {path: "/", element: <Home/>},

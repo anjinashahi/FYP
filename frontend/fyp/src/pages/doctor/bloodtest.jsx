@@ -1,21 +1,60 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
+import axios from 'axios';
+// import { useContext } from 'react';
 function BloodTestForm() {
   const [patientId, setPatientId] = useState('');
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const [testValues, setTestValues] = useState({
     testosterone: '',
     fsh: '',
     lh: '',
-    insulin: ''
+    insulin: '',
+    ratio: '',
+    
   });
-  const [riskScore, setRiskScore] = useState(null);
+  const [riskScore, setRiskResult] = useState(null);
 
-  const calculateRiskScore = () => {
-    // Simplified risk calculation
-    const score = Object.values(testValues).reduce((acc, val) => acc + Number(val), 0) / 4;
-    setRiskScore(score.toFixed(2));
+  // const calculateRiskScore = async () => {
+  //   try {
+  //     const response = await axios.post(backendUrl + "api/symptoms/submit-symptoms", {
+  //       patientId,
+  //       testosterone: testValues.testosterone,
+  //       fsh: testValues.fsh,
+  //       lh: testValues.lh,
+  //       insulin: testValues.insulin
+  //     });
+  
+  //     if (response.data && response.data.riskScore) {
+  //       setRiskScore(response.data.riskScore);
+  //     } else {
+  //       console.error('Unexpected response format:', response.data);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error submitting blood test data:', error);
+  //     alert('Something went wrong while submitting the data.');
+  //   }
+  // };
+  
+  const calculateRiskScore = async () => {
+    try {
+      const response = await axios.post(backendUrl + 'api/bloodtests/analyze', {
+        patientId,
+        ...testValues,
+        ratio: testValues.ratio || 0  // Send the user inputted ratio or a default of 0
+      });
+  
+      if (response.data) {
+        setRiskResult(response.data);
+      } else {
+        console.error('Unexpected response format:', response.data);
+      }
+    } catch (error) {
+      console.error('Error submitting blood test data:', error);
+      alert('Something went wrong while submitting the data.');
+    }
   };
-
+  
   return (
     <div style={{ 
       minHeight: '100vh', 
@@ -162,9 +201,39 @@ function BloodTestForm() {
               </div>
               <span style={{ color: '#19376D', alignSelf: 'end', marginBottom: '8px' }}>mg/dL</span>
             </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '16px', alignItems: 'center' }}>
+              <div>
+                <label 
+                  htmlFor="lh" 
+                  style={{ 
+                    display: 'block', 
+                    color: '#19376D',
+                    fontWeight: '600',
+                    marginBottom: '8px'
+                  }}
+                >
+                  FSH/LH ratio
+                </label>
+                <input
+                  id="lh"
+                  type="number"
+                  value={testValues.lh}
+                  onChange={(e) => setTestValues(prev => ({ ...prev, lh: e.target.value }))}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid #576CBC',
+                    borderRadius: '4px',
+                    fontSize: '16px'
+                  }}
+                />
+              </div>
+              <span style={{ color: '#19376D', alignSelf: 'end', marginBottom: '8px' }}>mg/dL</span>
+            </div>
 
             {/* FSH/LH Ratio */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '16px', alignItems: 'center' }}>
+            {/* <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '16px', alignItems: 'center' }}>
               <div>
                 <label style={{ 
                   display: 'block', 
@@ -187,7 +256,7 @@ function BloodTestForm() {
                 </div>
               </div>
               <span style={{ color: '#19376D', alignSelf: 'end', marginBottom: '8px' }}>ratio</span>
-            </div>
+            </div> */}
 
             {/* Insulin */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '16px', alignItems: 'center' }}>

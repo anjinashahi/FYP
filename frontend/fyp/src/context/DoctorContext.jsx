@@ -85,6 +85,7 @@ const DoctorContextProvider = (props) => {
             toast.error(error.message)
         }
     }
+
     const value = {
         doctors,
         backendUrl, getAppointments, appointments, setAppointments,

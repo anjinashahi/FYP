@@ -1,9 +1,11 @@
-import { Search } from "lucide-react"
+import { Mail } from "lucide-react"
 import { useState } from "react"
 import axios from "axios"
 
+
 const SymptomsForm = () => {
   const [loading, setLoading] = useState(false)
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const symptoms = [
     { id: "acne", label: "Acne" },
@@ -18,9 +20,8 @@ const SymptomsForm = () => {
     const formData = new FormData(event.target)
     const data = Object.fromEntries(formData)
 
-    // Transform values from 'yes'/'no' → boolean
     const transformedData = {
-      userID: data.patientId,
+      email: data.email,
       acne: data.acne === "yes",
       hairThinning: data.hairThinning === "yes",
       irregularPeriods: data.irregularPeriods === "yes",
@@ -31,7 +32,7 @@ const SymptomsForm = () => {
 
     try {
       setLoading(true)
-      const res = await axios.post("/api/symptoms/submit", transformedData)
+      const res = await axios.post(backendUrl + "api/symptoms/submit-symptoms", transformedData)
       console.log(res.data)
       alert("Assessment submitted successfully.")
     } catch (err) {
@@ -50,19 +51,19 @@ const SymptomsForm = () => {
         </div>
         <div className="p-8">
           <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Patient ID Search */}
+            {/* Patient Email Input */}
             <div className="bg-white p-6 rounded-lg shadow-sm border border-[#A5D7E8]/20">
               <div className="space-y-3">
-                <label htmlFor="patientId" className="block text-[#19376D] text-lg font-medium">
-                  Patient ID
+                <label htmlFor="email" className="block text-[#19376D] text-lg font-medium">
+                  Patient Email
                 </label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#576CBC] h-4 w-4" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#576CBC] h-4 w-4" />
                   <input
-                    id="patientId"
-                    name="patientId"
-                    type="text"
-                    placeholder="Search patient ID..."
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="Enter patient email..."
                     className="w-full pl-10 py-2 border border-[#A5D7E8] rounded-md focus:border-[#576CBC] focus:ring-1 focus:ring-[#576CBC] outline-none"
                     required
                   />
