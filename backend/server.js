@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 import { clerkMiddleware } from "@clerk/express";
 import { getUser } from "./middlewares/auth.js";
 import symptomRouter from "./routes/symtomsRoute.js";
+import bloodTestRouter from "./routes/bloodTestRoute.js";
 //app config
 const app = express();
 const port = process.env.PORT || 3000;
@@ -34,6 +35,7 @@ connectDB().then(() => {
     app.use('/api/doctor', doctorRouter)
     app.use('/api/user', userRouter)
     app.use('/api/symptoms', symptomRouter)
+    app.use('/api/bloodtests', bloodTestRouter)
     app.get('/', (req, res) => {
         res.send('API working fine');
     });

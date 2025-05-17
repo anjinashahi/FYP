@@ -1,25 +1,47 @@
-const { calculateRiskScore } = require("../controllers/calculateRiskScore");
+import bloodModel from "../models/bloodModel.js";
+import calculateRiskScore from "../controllers/calculateRiskScore.js";
 
-exports.analyzeBloodTest = (req, res) => {
-    const { fsh, lh, testosterone, insulin, androstenedione, shbg } = req.body;
+const calculateRisk= async (req, res) => {
+    const { fsh, lh, testosterone, insulin, ratio} = req.body;
 
-    if ([fsh, lh, testosterone, insulin].some(val => val === undefined)) {
-        return res.status(400).json({ error: "Required fields (FSH, LH, Testosterone, Insulin) are missing." });
+    if ([fsh, lh, testosterone, insulin, ratio].some(val => val === undefined)) {
+        return res.status(400).json({ error: "Required fields are missing." });
     }
 
-    const result = calculateRiskScore({
-        fsh: parseFloat(fsh),
-        lh: parseFloat(lh),
-        testosterone: parseFloat(testosterone),
-        insulin: parseFloat(insulin),
-        androstenedione: parseFloat(androstenedione || 0),
-        shbg: parseFloat(shbg || 0)
-    });
+    try {
+        const result = calculateRiskScore({
+            fsh: parseFloat(fsh),
+            lh: parseFloat(lh),
+            testosterone: parseFloat(testosterone),
+            insulin: parseFloat(insulin),
+            ratio: parseFloat(ratio || 0)
+        });
 
-    res.json({
-        input: { fsh, lh, testosterone, insulin, androstenedione, shbg },
-        ...result
-    });
+        const { riskScore, riskCategory } = result;
+        const bloodTestEntry = new bloodModel({
+            email: req.user.mongoUser.email,
+            doctorID: req.user.mongoUser._id,
+            testResults: {
+                fsh: parseFloat(fsh),
+                lh: parseFloat(lh),
+                testosterone: parseFloat(testosterone),
+                insulin: parseFloat(insulin),
+                ratio: parseFloat(ratio || 0),
+                riskScore,
+                riskCategory
+            }
+        });
+
+        await bloodTestEntry.save();
+        console.log("Blood test entry saved:", bloodTestEntry);
+
+
+        res.json({
+            // input: { fsh, lh, testosterone, insulin, ratio },
+            ...result,  success: true, message: "Risk score saved successfully.",
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 };
-
-
+export default calculateRisk;

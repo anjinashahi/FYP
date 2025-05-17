@@ -1,7 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const bloodTestController = require("../controllers/bloodTestController");
+import express from "express";
 
-router.post("/analyze", bloodTestController.analyzeBloodTest);  // no change needed unless adding more routes
+import bloodTestController from "../controllers/bloodController.js";
 
-module.exports = router;
+const bloodRouter = express.Router();
+
+bloodRouter.post("/analyze", bloodTestController);  // no change needed unless adding more routes
+
+export default bloodRouter;
